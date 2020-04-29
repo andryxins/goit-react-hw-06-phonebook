@@ -1,19 +1,18 @@
-import actionsTypes from '../contactReducer/contactActionsType';
+import { createReducer } from '@reduxjs/toolkit';
+import {
+  getLocalStorageData,
+  addContact,
+  deleteContact,
+} from './contactsActions';
 
-const contactReducer = (state = [], { type, payload }) => {
-  switch (type) {
-    case actionsTypes.ADD_NEW_CONTACT:
-      return [...state, payload.newContact];
-
-    case actionsTypes.DELETE_CONTACT:
-      return state.filter(item => item.id !== payload.id);
-
-    case actionsTypes.GET_CONTACTS_FROM_LOCAL_STORAGE:
-      return [...state, ...payload.contacts];
-
-    default:
-      return state;
-  }
-};
+const contactReducer = createReducer([], {
+  [addContact]: (state, action) => [...state, action.payload],
+  [deleteContact]: (state, action) =>
+    state.filter(item => item.id !== action.payload),
+  [getLocalStorageData.fulfilled]: (state, action) => [
+    ...state,
+    ...action.payload,
+  ],
+});
 
 export default contactReducer;

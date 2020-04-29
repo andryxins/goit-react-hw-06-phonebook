@@ -1,20 +1,11 @@
-import { createStore, applyMiddleware } from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
-import thunk from 'redux-thunk';
+import { configureStore } from '@reduxjs/toolkit';
 import rootReducer from './rootReducer';
 import { getLocalStorageData } from './contactReducer/contactsActions';
 import { updateLocalStorage } from './localStorageActions';
 
-const initialState = {
-  filter: '',
-  contacts: [],
-};
-
-const store = createStore(
-  rootReducer,
-  { ...initialState },
-  composeWithDevTools(applyMiddleware(thunk)),
-);
+const store = configureStore({
+  reducer: rootReducer,
+});
 
 store.dispatch(getLocalStorageData());
 

@@ -1,26 +1,15 @@
 import actionsTypes from './contactActionsType';
 import { getLocalStorageItems } from '../localStorageActions';
+import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
 
-export const addContact = obj => ({
-  type: actionsTypes.ADD_NEW_CONTACT,
-  payload: {
-    newContact: { ...obj },
+export const addContact = createAction(actionsTypes.ADD_NEW_CONTACT);
+
+export const deleteContact = createAction(actionsTypes.DELETE_CONTACT);
+
+export const getLocalStorageData = createAsyncThunk(
+  actionsTypes.GET_CONTACTS_FROM_LOCAL_STORAGE,
+  async () => {
+    const persistedData = await getLocalStorageItems();
+    return [...persistedData];
   },
-});
-
-export const deleteContact = id => ({
-  type: actionsTypes.DELETE_CONTACT,
-  payload: {
-    id: id,
-  },
-});
-
-export const getLocalStorageData = () => dispatch => {
-  const persistedData = getLocalStorageItems();
-  dispatch({
-    type: actionsTypes.GET_CONTACTS_FROM_LOCAL_STORAGE,
-    payload: {
-      contacts: [...persistedData],
-    },
-  });
-};
+);

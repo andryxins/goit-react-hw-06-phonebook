@@ -1,13 +1,8 @@
-import actionTypes from './filterActionType';
+import { createReducer } from '@reduxjs/toolkit';
+import { changeQuery } from './filterActions';
 
-const filterReducer = (state = '', { type, payload }) => {
-  switch (type) {
-    case actionTypes.CHANGE_QUERY:
-      return payload.query;
-
-    default:
-      return state;
-  }
-};
+const filterReducer = createReducer('', {
+  [changeQuery]: (state, action) => action.payload,
+});
 
 export default filterReducer;
