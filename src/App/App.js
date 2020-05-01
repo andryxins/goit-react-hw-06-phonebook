@@ -45,11 +45,6 @@ export default class App extends Component {
     this.props.onChangeQuery(value);
   };
 
-  componentDidMount() {
-    // Getting all contact, when component is alredy mounted
-    // this.props.onInit();
-  }
-
   render() {
     const { phoneBookItems, onDeleteContact, filterQuery } = this.props;
     const filteredContacts = filterContactList(phoneBookItems, filterQuery);
