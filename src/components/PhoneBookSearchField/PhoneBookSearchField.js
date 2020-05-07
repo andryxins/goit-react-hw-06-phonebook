@@ -4,7 +4,7 @@ import { CSSTransition } from 'react-transition-group';
 import slideTransition from '../../Transitions/slideTransition.module.css';
 import Styles from './PhoneBookSearchField.module.css';
 
-const PhoneBookSearchField = ({ value, onChange, isActive }) => (
+const PhoneBookSearchField = ({ filterQuery, onChangeQuery, isActive }) => (
   <CSSTransition
     in={isActive}
     mountOnEnter
@@ -17,8 +17,8 @@ const PhoneBookSearchField = ({ value, onChange, isActive }) => (
         className={Styles.searchField}
         type="text"
         name="filterQuery"
-        value={value}
-        onChange={onChange}
+        value={filterQuery}
+        onChange={({ target }) => onChangeQuery(target.value)}
         placeholder="Search contact..."
       />
     </div>
@@ -26,8 +26,8 @@ const PhoneBookSearchField = ({ value, onChange, isActive }) => (
 );
 
 PhoneBookSearchField.propTypes = {
-  value: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
+  filterQuery: PropTypes.string.isRequired,
+  onChangeQuery: PropTypes.func.isRequired,
 };
 
 export default PhoneBookSearchField;

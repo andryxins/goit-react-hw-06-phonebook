@@ -1,12 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
+import { Field, Form, Formik } from 'formik';
 import { Icon } from '@iconify/react';
+import { v4 as uuidv4 } from 'uuid';
+import { toast } from 'react-toastify';
 import { CSSTransition } from 'react-transition-group';
-import slideTransition from '../../Transitions/slideTransition.module.css';
 import checkCircle from '@iconify/icons-cil/check-circle';
+import slideTransition from '../../Transitions/slideTransition.module.css';
 import Styles from './PhoneBookFields.module.css';
+import { checkContactForUnique } from '../../helpers/helpers';
+
+toast.configure();
 
 const validationSchema = Yup.object().shape({
   name: Yup.string()
@@ -21,12 +26,24 @@ const validationSchema = Yup.object().shape({
     .required('Required'),
 });
 
-const PhoneBookFields = ({ onSubmit }) => (
+const PhoneBookFields = ({ onAddContact, phoneBookItems }) => (
   <>
     <Formik
       initialValues={{ name: '', number: '' }}
       onSubmit={(values, actions) => {
-        onSubmit(values) && actions.resetForm();
+        if (checkContactForUnique(phoneBookItems, values)) {
+          toast.error('This contact is alredy exist', {
+            position: 'top-right',
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          });
+          return;
+        }
+        onAddContact({ ...values, id: uuidv4() });
+        actions.resetForm();
       }}
       validationSchema={validationSchema}
     >
@@ -107,7 +124,14 @@ const PhoneBookFields = ({ onSubmit }) => (
 );
 
 PhoneBookFields.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
+  onAddContact: PropTypes.func.isRequired,
+  phoneBookItems: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      number: PropTypes.string,
+    }),
+  ),
 };
 
 export default PhoneBookFields;
