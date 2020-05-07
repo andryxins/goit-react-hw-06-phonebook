@@ -28,6 +28,7 @@ const PhoneBookSearchField = ({ filterQuery, onChangeQuery, isActive }) => (
 PhoneBookSearchField.propTypes = {
   filterQuery: PropTypes.string.isRequired,
   onChangeQuery: PropTypes.func.isRequired,
+  isActive: PropTypes.bool,
 };
 
 export default PhoneBookSearchField;
