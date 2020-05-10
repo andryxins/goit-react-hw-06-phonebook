@@ -1,37 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import { Icon } from '@iconify/react';
-import xIcon from '@iconify/icons-cil/x';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { filterContactList } from '../../helpers/helpers';
+import PhoneBookListItem from '../PhoneBookListItem/PhoneBookListItemContainer';
 import Styles from './PhoneBookList.module.css';
 import transitionsStyle from '../../Transitions/slideTransition.module.css';
 
-const PhoneBookList = ({ onDeleteContact, phoneBookItems, filterQuery }) => {
+const PhoneBookList = ({ phoneBookItems, filterQuery }) => {
   const filteredQuery = filterContactList(phoneBookItems, filterQuery);
+
   return (
     <TransitionGroup component="ul" className={Styles.container}>
-      {filteredQuery.map(({ id, name, number }) => (
+      {filteredQuery.map(contact => (
         <CSSTransition
           in
           timeout={500}
           classNames={transitionsStyle}
-          className={Styles.listItem}
-          key={id}
+          key={contact.id}
           unmountOnExit
         >
-          <li>
-            <span className={Styles.name}>
-              {name} : {number}
-            </span>
-            <button
-              onClick={() => onDeleteContact(id)}
-              className={Styles.Btn}
-              type="button"
-            >
-              <Icon icon={xIcon} color="red" width="40px" height="40px" />
-            </button>
-          </li>
+          <PhoneBookListItem contact={contact} />
         </CSSTransition>
       ))}
     </TransitionGroup>

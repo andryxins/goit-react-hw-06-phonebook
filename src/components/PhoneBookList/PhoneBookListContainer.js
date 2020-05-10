@@ -1,14 +1,11 @@
 import { connect } from 'react-redux';
 import PhoneBookList from './PhoneBookList';
-import contactSlice from '../../redux/contactReducer/contactSlice';
+import { getFilterQuery } from '../../redux/filterReducer/filterSelectors';
+import { getContacts } from '../../redux/contactReducer/contactSelectors';
 
 const mapStateToProps = state => ({
-  phoneBookItems: [...state.contacts],
-  filterQuery: state.filter,
+  phoneBookItems: getContacts(state),
+  filterQuery: getFilterQuery(state),
 });
 
-const mapDispatchToProps = dispatch => ({
-  onDeleteContact: id => dispatch(contactSlice.actions.deleteContact(id)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(PhoneBookList);
+export default connect(mapStateToProps)(PhoneBookList);
