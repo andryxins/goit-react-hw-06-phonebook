@@ -1,9 +1,8 @@
 import { connect } from 'react-redux';
-import filterSlice from '../../redux/filterReducer/filterSlice';
 import PhoneBookSearchField from './PhoneBookSearchField';
 import {
   getFilterQuery,
-  getFilterOnChangeQuery,
+  getFilterOnChange,
 } from '../../redux/filterReducer/filterSelectors';
 
 const mapStateToProps = state => ({
@@ -11,7 +10,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onChangeQuery: query => dispatch(getFilterOnChangeQuery(filterSlice, query)),
+  onChangeQuery: query => dispatch(getFilterOnChange(query)),
 });
 
 export default connect(

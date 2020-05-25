@@ -1,4 +1,6 @@
+import filterSlice from '../../redux/filterReducer/filterSlice';
+
 export const getFilterQuery = state => state.filter;
 
-export const getFilterOnChangeQuery = (reducer, query) =>
-  reducer.actions.changeQuery(query);
+export const getFilterOnChange = query =>
+  filterSlice.actions.changeQuery(query);
